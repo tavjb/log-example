@@ -44,7 +44,7 @@ public class Logger {
     private void log(String msg, LogLevel logLevel)  {
         final String log = LocalDateTime.now() + " | source: " + this.source + " | level: " + logLevel + " | message: " + msg;
 
-        PrintStream printStream = logLevel == LogLevel.ERROR ? System.err : System.out;
+        final PrintStream printStream = logLevel == LogLevel.ERROR ? System.err : System.out;
         try {
             switch (LoggerConfig.logMode) {
                 case FILE -> {
