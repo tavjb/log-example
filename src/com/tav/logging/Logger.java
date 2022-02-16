@@ -1,11 +1,12 @@
-package com.tav.logging;
+package com.company.logging;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.tav.logging.LoggerConfig.writer;
+import static com.company.logging.LoggerConfig.writer;
+import static com.company.logging.LoggerConfig.logMode;
 
 public class Logger {
     private static final Map<Class<?>, Logger> loggers = new HashMap<>();
@@ -41,18 +42,19 @@ public class Logger {
         log(msg, LogLevel.ERROR);
     }
 
-    private void log(String msg, LogLevel logLevel)  {
+    private void log(final String msg, final LogLevel logLevel)  {
+        if (logLevel.getValue() > LoggerConfig.logLevel.getValue()) {
+            return;
+        }
+
         final String log = LocalDateTime.now() + " | source: " + this.source + " | level: " + logLevel + " | message: " + msg;
-
-        final PrintStream printStream = logLevel == LogLevel.ERROR ? System.err : System.out;
         try {
-            switch (LoggerConfig.logMode) {
-                case FILE -> {
-                    writer.write(log);
-                    writer.flush();
-                }
-
-                default -> printStream.println(log);
+            if (logMode == LogMode.FILE) {
+                writer.write(log + "\n");
+                writer.flush();
+            } else {
+                final PrintStream printStream = logLevel == LogLevel.ERROR ? System.err : System.out;
+                printStream.println(log);
             }
         } catch (IOException e) {
             e.printStackTrace();

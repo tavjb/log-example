@@ -6,6 +6,12 @@ public class Main {
     private static final Logger LOGGER = Logger.getLogger(Main.class);
 
     public static void main(String[] args) {
-        LOGGER.info("hello");
+
+        LOGGER.info("Failed to create coupon");
+        LOGGER.info("Failed to create coupon");
+        LOGGER.info("Failed to create coupon");
+        LOGGER.info("Failed to create coupon");
+        LOGGER.info("Failed to create coupon");
+
     }
 }
